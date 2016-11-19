@@ -2,17 +2,17 @@
 :- dynamic turno/1.
 :- dynamic movimentos_restantes/1.
 
-tela( (1, 1), verde, apagada ).
-tela( (1, 2), verde, apagada ).
-tela( (2, 1), verde, apagada ).
-tela( (2, 2), verde, apagada ).
+tela( (1, 1), verde, acesa ).
+tela( (1, 2), verde, acesa ).
+tela( (2, 1), verde, acesa ).
+tela( (2, 2), verde, acesa ).
 
 turno(azul).
 movimentos_restantes(4).
 
-troca_cor_direita(X, Y) :- tela( (X, Y), Cor, Sinal ), Sinal = apagada, ( (Cor = verde, atualiza_tela(X, Y, azul, Sinal)) ; (Cor = azul, atualiza_tela(X, Y, vermelho, Sinal)) ; (Cor = vermelho, atualiza_tela(X, Y, verde, Sinal)) ) , !.
+troca_cor(X, Y, direita) :- tela( (X, Y), Cor, Sinal ), Sinal = apagada, ( (Cor = verde, atualiza_tela(X, Y, azul, Sinal)) ; (Cor = azul, atualiza_tela(X, Y, vermelho, Sinal)) ; (Cor = vermelho, atualiza_tela(X, Y, verde, Sinal)) ) , !.
 
-troca_cor_esquerda(X, Y) :- tela( (X, Y), Cor, Sinal ), Sinal = apagada, ( (Cor = azul, atualiza_tela(X, Y, verde, Sinal)) ; (Cor = vermelho, atualiza_tela(X, Y, azul, Sinal)) ; (Cor = verde, atualiza_tela(X, Y, vermelho, Sinal)) ) , !.
+troca_cor(X, Y, esquerda) :- tela( (X, Y), Cor, Sinal ), Sinal = apagada, ( (Cor = azul, atualiza_tela(X, Y, verde, Sinal)) ; (Cor = vermelho, atualiza_tela(X, Y, azul, Sinal)) ; (Cor = verde, atualiza_tela(X, Y, vermelho, Sinal)) ) , !.
 
 flipa_tela(X, Y) :- tela( (X, Y), Cor, Sinal ), ( (Sinal = acesa, atualiza_tela(X, Y, Cor, apagada)) ; (Sinal = apagada, atualiza_tela(X, Y, Cor, acesa)) ), !.
 
