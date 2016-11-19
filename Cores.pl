@@ -18,6 +18,7 @@ flipa_tela(X, Y) :- tela( (X, Y), Cor, Sinal ), ( (Sinal = acesa, atualiza_tela(
 
 jogada(flipar, X, Y) :- flipa_tela(X, Y), reduz_movimentos_restantes(1), (checa_vencedor ; true) , !.
 jogada(virar_direita, X, Y) :- troca_cor_direita(X, Y), reduz_movimentos_restantes(1), !.
+jogada(virar_esquerda, X, Y) :- troca_cor_esquerda(X, Y), reduz_movimentos_restantes(1), !.
 
 checa_vencedor :- ( forall( tela( (_,_), Cor, Sinal ), ( Cor = azul, Sinal = acesa ) ), write("azul venceu") ) ; ( forall( tela( (_,_), Cor, Sinal ), ( Cor = vermelho, Sinal = acesa ) ), write("vermelho venceu") ), ! .
 
