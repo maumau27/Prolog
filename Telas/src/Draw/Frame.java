@@ -6,10 +6,10 @@ import java.awt.Toolkit;
 
 import javax.swing.*;
 
-public class TelaPrincipal extends JFrame {
+public class Frame extends JFrame {
 	
-	public final int LARG_DEFAULT = 800;
-	public final int ALT_DEFAULT = 800;
+	public final int LARG_DEFAULT = 815;
+	public final int ALT_DEFAULT = 830;
 	JPanel p = new JPanel();
 	
 	double leftX=100.0;
@@ -17,7 +17,7 @@ public class TelaPrincipal extends JFrame {
 	double larg=200.0;
 	double alt=150.0;
 	
-	public TelaPrincipal(String s)
+	public Frame(String s)
 	{
 		super(s);
 		
@@ -36,7 +36,6 @@ public class TelaPrincipal extends JFrame {
 		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		//getContentPane().add(new Tela());
-		getContentPane().add(new Tela(Color.BLUE));
+		getContentPane().add(new Game());
 	}
 }
