@@ -1,5 +1,7 @@
 package Game;
 
+import java.awt.image.ReplicateScaleFilter;
+
 public class Acao {
 	private int IdTela;
 	private TipoAcao tipo;
@@ -20,6 +22,29 @@ public class Acao {
 		this.IdTela = idTela;
 		this.tipo = tipo;
 		this.dir = dir;
+	}
+	
+	public Acao(String acao)
+	{
+		if(acao.contains("acao("))
+		{
+			String strAcao[] = acao.substring(5).replace(")", "").replace(".", "").split(",");
+
+			this.tipo = Dicionario.String_TipoAcao(strAcao[0].trim());
+			this.IdTela = Integer.valueOf(strAcao[1].trim());
+			if(strAcao.length == 3)
+				this.dir = Dicionario.String_Direcao(strAcao[2].trim());
+		}
+	}
+	
+	public TipoAcao getTipo()
+	{
+		return this.tipo;
+	}
+	
+	public int getIdTela()
+	{
+		return this.IdTela;
 	}
 	
 	public String getString()

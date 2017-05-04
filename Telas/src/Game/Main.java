@@ -1,3 +1,4 @@
+package Game;
 import java.util.Map;
 
 import org.jpl7.*;
@@ -9,12 +10,13 @@ import Prolog.Translator;
 
 public class Main {
 	private static boolean isRunning = true;
+	public static Frame frame = new Frame("Teste");
+	
 	
 	public static void main(String[] args)
 	{
-		Frame t = new Frame("Teste");
-		t.setVisible(true);
-		Controller.translator.setCorIa(Cor.azul);
+		frame.setVisible(true);
+		GameController.translator.setCorIa(Cor.vermelho);
 		
 		try
 		{
@@ -29,10 +31,11 @@ public class Main {
 	
 	public static void gameLoop()
 	{
-		Controller.gameLogic();
+		GameController.gameLogic();
+		Main.frame.reDraw();
 		try
 		{
-			Thread.sleep(1200);
+			Thread.sleep(1800);
 		}
 		catch (Exception e) {
 			System.err.println(e);

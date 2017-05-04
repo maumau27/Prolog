@@ -2,5 +2,6 @@ package Game;
 
 public enum Direcao {
 	direita,
-	esquerda
+	esquerda,
+	inexistente
 }

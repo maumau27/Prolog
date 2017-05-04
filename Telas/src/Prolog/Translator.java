@@ -9,7 +9,9 @@ import org.jpl7.Term;
 
 import Game.Acao;
 import Game.Cor;
+import Game.Main;
 import Game.Sinal;
+import Game.TipoAcao;
 
 public class Translator {
 	private Prolog prolog;
@@ -144,20 +146,25 @@ public class Translator {
 		}
 	}
 	
-	public boolean doAcao(String acao)
+	public int getTrocaCorRecente()
 	{
+		Map<String, Term>[] solution;
+		
 		try {
-			this.prolog.doQuery(acao, true);
+			this.query = this.prolog.doQuery("troca_cor_recente(X).", true);
+			solution = query.allSolutions();
+			
+			return java.lang.Integer.parseInt( String.valueOf(solution[0].get("X")) );
 		} catch (Exception e) {
-			return false;
+			return 0;
 		}
-		return true;
 	}
 	
 	public boolean doAcao(Acao acao)
 	{
 		try {
 			this.prolog.doQuery(acao.getString(), true);
+			Main.frame.reDraw();
 		} catch (Exception e) {
 			return false;
 		}
