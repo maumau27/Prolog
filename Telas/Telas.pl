@@ -9,7 +9,7 @@ tela(4, verde, apagada).
 
 troca_cor_recente(0).
 
-turno(azul, 2).
+turno(azul, 3).
 
 dicionario_turno(azul, vermelho).
 dicionario_turno(vermelho, azul).
@@ -36,8 +36,8 @@ atualiza_tela(TelaId, Cor, Sinal) :- retract( tela(TelaId, _, _) ), assert( tela
 atualiza_troca_cor_recente(TelaId) :- retract( troca_cor_recente(_) ), assert( troca_cor_recente(TelaId) ).
 
 atualiza_turno(Cor, Sinal) :- turno(Jogador, _), Cor = Jogador, Sinal = acesa, !.
-atualiza_turno(Cor, Sinal) :- turno(Jogador, _), dicionario_turno(Jogador, NovoJogador), Cor = NovoJogador, Sinal = acesa, retract( turno(Jogador, _) ), assert( turno(NovoJogador, 2) ), !.
-atualiza_turno(_, _) :- turno(Jogador, 1), retract( turno(Jogador, _) ), dicionario_turno(Jogador, NovoJogador), assert( turno(NovoJogador, 2) ), !.
+atualiza_turno(Cor, Sinal) :- turno(Jogador, _), dicionario_turno(Jogador, NovoJogador), Cor = NovoJogador, Sinal = acesa, retract( turno(Jogador, _) ), assert( turno(NovoJogador, 3) ), !.
+atualiza_turno(_, _) :- turno(Jogador, 1), retract( turno(Jogador, _) ), dicionario_turno(Jogador, NovoJogador), assert( turno(NovoJogador, 3) ), !.
 atualiza_turno(_, _) :- turno(Jogador, JogadasRestantes), retract( turno(Jogador, _) ), NovaJogadasRestantes is JogadasRestantes - 1, assert( turno(Jogador, NovaJogadasRestantes) ), !.
 
 

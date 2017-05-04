@@ -9,12 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.RepaintManager;
 
 import Game.GameController;
+import Game.MouseController;
 import Game.Cor;
 import Game.Dicionario;
 import Game.Sinal;
@@ -29,7 +31,7 @@ public class Tela extends JPanel{
 		
 		setPos();
 	}
-	
+
 	public void setPos()
 	{
 		this.setSize(new Dimension(800, 800));

@@ -9,6 +9,8 @@ import org.jpl7.Term;
 
 import Game.Acao;
 import Game.Cor;
+import Game.GameController;
+import Game.GameState;
 import Game.Main;
 import Game.Sinal;
 import Game.TipoAcao;
@@ -100,8 +102,10 @@ public class Translator {
 			switch (String.valueOf(solution[0].get("V"))) 
 			{
 				case "azul":
+					GameController.chageGameState(GameState.WINNER);
 					return Cor.azul;
 				case "vermelho":
+					GameController.chageGameState(GameState.WINNER);
 					return Cor.vermelho;
 				default:
 					return Cor.inexistente;
@@ -164,7 +168,8 @@ public class Translator {
 	{
 		try {
 			this.prolog.doQuery(acao.getString(), true);
-			Main.frame.reDraw();
+			GameController.updatePlayerLock();
+			GameController.frame.reDraw();
 		} catch (Exception e) {
 			return false;
 		}

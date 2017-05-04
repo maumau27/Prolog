@@ -10,21 +10,12 @@ import Prolog.Translator;
 
 public class Main {
 	private static boolean isRunning = true;
-	public static Frame frame = new Frame("Teste");
-	
 	
 	public static void main(String[] args)
-	{
-		frame.setVisible(true);
+	{	
 		GameController.translator.setCorIa(Cor.vermelho);
-		
-		try
-		{
-			Thread.sleep(1800);
-		}
-		catch (Exception e) {
-			System.err.println(e);
-		}
+		GameController.chageGameState(GameState.GAME);
+		GameController.frame.setVisible(true);
 		
 		gameLoop();
 	}
@@ -32,10 +23,11 @@ public class Main {
 	public static void gameLoop()
 	{
 		GameController.gameLogic();
-		Main.frame.reDraw();
+		GameController.updatePlayerLock();
+		//Main.frame.reDraw();
 		try
 		{
-			Thread.sleep(1800);
+			Thread.sleep(300);
 		}
 		catch (Exception e) {
 			System.err.println(e);
