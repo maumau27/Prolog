@@ -102,10 +102,8 @@ public class Translator {
 			switch (String.valueOf(solution[0].get("V"))) 
 			{
 				case "azul":
-					GameController.chageGameState(GameState.WINNER);
 					return Cor.azul;
 				case "vermelho":
-					GameController.chageGameState(GameState.WINNER);
 					return Cor.vermelho;
 				default:
 					return Cor.inexistente;

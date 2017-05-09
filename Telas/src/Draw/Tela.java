@@ -17,9 +17,12 @@ import javax.swing.RepaintManager;
 
 import Game.GameController;
 import Game.MouseController;
+import Game.Acao;
 import Game.Cor;
 import Game.Dicionario;
+import Game.Direcao;
 import Game.Sinal;
+import Game.TipoAcao;
 
 public class Tela extends JPanel{
 	public int idTela;
@@ -34,9 +37,55 @@ public class Tela extends JPanel{
 
 	public void setPos()
 	{
-		this.setSize(new Dimension(800, 800));
-		this.setPreferredSize(new Dimension(800,800));
-		this.setLocation(0, 0);
+		int leftX = 0, topY = 0;
+		
+		switch (this.idTela) {
+			case 1:
+				leftX=0;
+				topY=0;
+				break;
+			case 2:
+				leftX=400;
+				topY=0;		
+				break;
+			case 3:
+				leftX=0;
+				topY=400;
+				break;
+			case 4:
+				leftX=400;
+				topY=400;
+			break;
+		}
+		
+		addMouseListener(new MouseAdapter() {
+
+			public void mousePressed(MouseEvent e) {
+				if(!GameController.LockPlayerAction)
+				{
+					switch (e.getButton()) {
+						case 1:
+							GameController.translator.doAcao(new Acao(idTela, TipoAcao.troca_cor, Direcao.esquerda));
+							break;
+							
+						case 2:
+							GameController.translator.doAcao(new Acao(idTela, TipoAcao.troca_sinal));
+							break;
+				
+						case 3:
+							GameController.translator.doAcao(new Acao(idTela, TipoAcao.troca_cor, Direcao.direita));
+							break;
+							
+						default:
+							break;
+					}
+				}
+			}
+		});
+		
+		this.setSize(new Dimension(400, 400));
+		this.setPreferredSize(new Dimension(400,400));
+		this.setLocation(leftX, topY);
 		this.setBackground(Color.BLACK);
 		this.setOpaque(false);
 	}
@@ -58,25 +107,6 @@ public class Tela extends JPanel{
 		double topY=0.0;
 		double larg=400.0;
 		double alt=400.0;
-		
-		switch (idTela) {
-			case 1:
-				leftX=0.0;
-				topY=0.0;
-				break;
-			case 2:
-				leftX=400.0;
-				topY=0.0;		
-				break;
-			case 3:
-				leftX=0.0;
-				topY=400.0;
-				break;
-			case 4:
-				leftX=400.0;
-				topY=400.0;
-				break;
-		}
 		
 		sinal = GameController.translator.getSinalTela(idTela);
 		

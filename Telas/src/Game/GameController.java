@@ -1,12 +1,16 @@
 package Game;
 
+import java.awt.Button;
 import java.util.Scanner;
 
+import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import Draw.Frame;
 import Draw.Placar;
 import Draw.Tela;
+import Draw.Menu;
 import Prolog.Translator;
 
 public final class GameController {
@@ -40,7 +44,7 @@ public final class GameController {
 				}
 				else
 				{
-					
+
 				}
 				break;
 				
@@ -65,23 +69,51 @@ public final class GameController {
 		switch (newState) {
 		case GAME:
 			
-			GameController.frame.add(new Placar());
+			frame.reset();
+			
+			frame.addComponent(new Placar());
 			for (int i = 1; i < 5; i++) {
-				GameController.frame.add(new Tela(i));
+				frame.addComponent(new Tela(i));
 			}
 			
-			GameController.frame.addMouseListener(new MouseController());
+			frame.resetPane();
+
+			frame.reDraw();
 			
 			break;
 			
 		case WINNER:
 
-
+			frame.reset();
+			
+			frame.addComponent(new Placar());
+			
+			frame.resetPane();
+			
+			frame.reDraw();
+			
+			break;
+			
+		case MAIN_MENU:
+			
+			frame.reset();
+			
+			frame.addComponent(new Menu());
+			
+			frame.resetPane();
+			
+			frame.reDraw();
+			
 			break;
 
 		default:
 			break;
 		}
+	}
+	
+	public static GameState getGameState()
+	{
+		return GameController.gameState;
 	}
 	
 	public static void updatePlayerLock()

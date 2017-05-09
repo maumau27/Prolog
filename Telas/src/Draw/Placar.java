@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import Game.Cor;
 import Game.GameController;
+import Game.GameState;
 
 public class Placar extends JPanel {
 	
@@ -60,6 +61,8 @@ public class Placar extends JPanel {
 		{
 			g2d.setPaint(Color.BLACK);
 			g2d.drawString("Vencedor : " + vencedor, (int)leftX + 5, (int)topY + 20);
+			if(GameController.getGameState() == GameState.GAME)
+				GameController.chageGameState(GameState.WINNER);
 		}
 
 	}

@@ -1,4 +1,5 @@
 package Game;
+import java.awt.Insets;
 import java.util.Map;
 
 import org.jpl7.*;
@@ -14,7 +15,8 @@ public class Main {
 	public static void main(String[] args)
 	{	
 		GameController.translator.setCorIa(Cor.vermelho);
-		GameController.chageGameState(GameState.GAME);
+		GameController.chageGameState(GameState.MAIN_MENU);
+		
 		GameController.frame.setVisible(true);
 		
 		gameLoop();

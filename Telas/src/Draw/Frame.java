@@ -1,7 +1,10 @@
 package Draw;
 
+import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,8 +17,8 @@ public class Frame extends JFrame {
 	
 	public final int LARG_DEFAULT = 815;
 	public final int ALT_DEFAULT = 830;
-	JPanel p = new JPanel();
-	
+	private JPanel pane = new JPanel();
+
 	double leftX=100.0;
 	double topY=100.0;
 	double larg=200.0;
@@ -32,17 +35,33 @@ public class Frame extends JFrame {
 		int x=sl/2-LARG_DEFAULT/2;
 		int y=sa/2-ALT_DEFAULT/2;
 		
-		getContentPane().setLayout(null);
-		
-		p.setBackground(Color.WHITE);
-		getContentPane().add(p);
-		
 		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	public void reDraw()
 	{
-		repaint();
+		pane.repaint();
+	}
+	
+	public void reset()
+	{
+		pane.removeAll();
+	}
+	
+	public void addComponent(Component obj)
+	{
+		pane.add(obj);
+	}
+	
+	public void resetPane()
+	{
+		getContentPane().removeAll();
+		
+		pane.setLayout(null);
+		
+		pane.setBackground(Color.WHITE);
+		
+		getContentPane().add(pane);
 	}
 }
