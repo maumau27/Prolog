@@ -25,6 +25,7 @@ import Game.Sinal;
 import Game.TipoAcao;
 
 public class Tela extends JPanel{
+	
 	public int idTela;
 	public boolean mouse_over = false;
 	
@@ -58,30 +59,7 @@ public class Tela extends JPanel{
 			break;
 		}
 		
-		addMouseListener(new MouseAdapter() {
-
-			public void mousePressed(MouseEvent e) {
-				if(!GameController.LockPlayerAction)
-				{
-					switch (e.getButton()) {
-						case 1:
-							GameController.translator.doAcao(new Acao(idTela, TipoAcao.troca_cor, Direcao.esquerda));
-							break;
-							
-						case 2:
-							GameController.translator.doAcao(new Acao(idTela, TipoAcao.troca_sinal));
-							break;
-				
-						case 3:
-							GameController.translator.doAcao(new Acao(idTela, TipoAcao.troca_cor, Direcao.direita));
-							break;
-							
-						default:
-							break;
-					}
-				}
-			}
-		});
+		addMouseListener(new MouseController(this.idTela));
 		
 		this.setSize(new Dimension(400, 400));
 		this.setPreferredSize(new Dimension(400,400));

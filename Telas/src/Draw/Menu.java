@@ -4,25 +4,49 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Game.Cor;
+import Game.GameController;
+import Game.GameState;
 
 public class Menu extends JPanel {
-	JButton b1 = new JButton("oi");
+	
+	JButton b1 = new JButton("Um Jogador");
+	JButton b2 = new JButton("Dois Jogadores");
+	
 	public Menu() 
 	{
 		setPos();
+		b1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GameController.N_jogadores = 1;
+				GameController.chageGameState(GameState.GAME);
+			}
+		});
+		
+		b2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GameController.N_jogadores = 2;
+				GameController.chageGameState(GameState.GAME);
+			}
+		});
+
+		add(b1);
+		add(b2);
 	}
 	
 	public void setPos()
 	{
-		this.setSize(new Dimension(400, 400));
-		this.setPreferredSize(new Dimension(400, 400));
-		this.setLocation(200, 200);
+		this.setSize(new Dimension(200, 200));
+		this.setPreferredSize(new Dimension(200, 200));
+		this.setLocation(300, 300);
 		this.setBackground(Color.BLACK);
 		this.setOpaque(false);
 	}
@@ -30,17 +54,6 @@ public class Menu extends JPanel {
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponents(g);
-		Graphics2D g2d=(Graphics2D) g;
-		double leftX=0.0;
-		double topY=0.0;
-		double larg=400.0;
-		double alt=400.0;
-
-		add(b1);
-		
-		Rectangle2D rt1=new Rectangle2D.Double(leftX,topY,larg,alt);
-		g2d.setPaint(Color.BLACK);
-		g2d.fill(rt1);
 	} 
 
 }

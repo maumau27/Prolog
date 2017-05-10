@@ -2,10 +2,10 @@
 :- dynamic turno/2.
 :- dynamic troca_cor_recente/1.
 
-tela(1, azul, apagada).
-tela(2, azul, apagada).
-tela(3, azul, apagada).
-tela(4, azul, apagada).
+tela(1, verde, apagada).
+tela(2, verde, apagada).
+tela(3, verde, apagada).
+tela(4, verde, apagada).
 
 troca_cor_recente(0).
 

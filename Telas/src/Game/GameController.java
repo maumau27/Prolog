@@ -1,6 +1,8 @@
 package Game;
 
 import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 import javax.swing.Action;
@@ -19,6 +21,7 @@ public final class GameController {
 	public static Translator translator = new Translator();
 	public static boolean LockPlayerAction = true;
 	public static Frame frame = new Frame("Telas");
+	public static int N_jogadores;
 	
 	public static void gameLogic()
 	{
@@ -29,7 +32,7 @@ public final class GameController {
 				break;
 			
 			case GAME:
-				if(translator.getJogadorDaVez() == translator.getCorIa())
+				if(translator.getJogadorDaVez() == translator.getCorIa() && N_jogadores == 1)
 				{
 					try
 					{
@@ -41,10 +44,6 @@ public final class GameController {
 					System.out.println(translator.getDecisaoIa());
 					Acao decisao = new Acao(translator.getDecisaoIa());
 					translator.doAcao(decisao);
-				}
-				else
-				{
-
 				}
 				break;
 				
@@ -75,8 +74,6 @@ public final class GameController {
 			for (int i = 1; i < 5; i++) {
 				frame.addComponent(new Tela(i));
 			}
-			
-			frame.resetPane();
 
 			frame.reDraw();
 			
@@ -87,9 +84,7 @@ public final class GameController {
 			frame.reset();
 			
 			frame.addComponent(new Placar());
-			
-			frame.resetPane();
-			
+
 			frame.reDraw();
 			
 			break;
@@ -99,8 +94,6 @@ public final class GameController {
 			frame.reset();
 			
 			frame.addComponent(new Menu());
-			
-			frame.resetPane();
 			
 			frame.reDraw();
 			
@@ -118,13 +111,21 @@ public final class GameController {
 	
 	public static void updatePlayerLock()
 	{
+		if(N_jogadores == 2)
+		{
+			GameController.LockPlayerAction = false;
+			return;
+		}
+		
 		if(translator.getJogadorDaVez() == translator.getCorIa())
 		{
 			GameController.LockPlayerAction = true;
+			return;
 		}
 		else
 		{
 			GameController.LockPlayerAction = false;
+			return;
 		}
 	}
 }

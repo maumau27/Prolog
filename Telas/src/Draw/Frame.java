@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -35,6 +37,12 @@ public class Frame extends JFrame {
 		int x=sl/2-LARG_DEFAULT/2;
 		int y=sa/2-ALT_DEFAULT/2;
 		
+		pane.setLayout(null);
+		
+		pane.setBackground(Color.WHITE);
+		
+		getContentPane().add(pane);
+		
 		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -52,16 +60,5 @@ public class Frame extends JFrame {
 	public void addComponent(Component obj)
 	{
 		pane.add(obj);
-	}
-	
-	public void resetPane()
-	{
-		getContentPane().removeAll();
-		
-		pane.setLayout(null);
-		
-		pane.setBackground(Color.WHITE);
-		
-		getContentPane().add(pane);
 	}
 }

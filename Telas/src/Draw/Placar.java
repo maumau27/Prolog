@@ -32,7 +32,7 @@ public class Placar extends JPanel {
 	{
 		super.paintComponents(g);
 		Graphics2D g2d=(Graphics2D) g;
-
+	
 		drawPlacar(g2d);
 	} 
 	
