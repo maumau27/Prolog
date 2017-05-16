@@ -8,6 +8,9 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -24,7 +27,12 @@ public class MainFrame extends JFrame {
 	
 	public static Translator t = new Translator();
 	public static MainFrame mf;
-
+	
+	public static Dimension tileSize = new Dimension(t.getTileSize(), t.getTileSize());
+	public static Dimension gridSize = new Dimension(t.getMapSize().x * tileSize.width + 1, t.getMapSize().y * tileSize.height + 1);
+	public static Point deslocamento = new Point((MainFrame.LARG_DEFAULT / 2) - (MainFrame.gridSize.width / 2), (MainFrame.ALT_DEFAULT / 2) - (MainFrame.gridSize.height / 2));
+	//public static Point deslocamento = new Point(0, 0);
+	
 	public MainFrame(String s)
 	{
 		super(s);
@@ -40,11 +48,11 @@ public class MainFrame extends JFrame {
 		
 		panel.setBackground(Color.WHITE);
 		
-		panel.add(new Grid());
+		//panel.add(new Grid());
 		
 		panel.add(new Player());
-		
-		getContentPane().add(panel);
+		panel.add(new Grid());
+		add(panel);
 		
 		addKeyListener(new KeyAdapter() 
 		{
@@ -71,9 +79,18 @@ public class MainFrame extends JFrame {
 			}
 		});
 				
-		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT + 25);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocation(new Point(x,y));
+		getContentPane().setPreferredSize(new Dimension(LARG_DEFAULT,ALT_DEFAULT));
+		pack();
 		
+//		System.out.println("frame width : "+getWidth());
+//		System.out.println("frame height: "+getHeight());
+//		System.out.println("content pane width : "+getContentPane().getWidth());
+//		System.out.println("content pane height: "+getContentPane().getHeight());
+//		System.out.println("width  of left + right  borders: "+(getWidth()-getContentPane ().getWidth()));
+//		System.out.println("height of top  + bottom borders: "+(getHeight()-getContentPane().getHeight()));
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	public static void main(String[] args)

@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -13,26 +15,27 @@ import javax.swing.JPanel;
 public class Grid extends JPanel{
 		
 	private Point position;
-	public static Dimension gridSize;
-	public static Dimension tileSize; 
-	public static Point deslocamento;
-	
+
 	public Grid()
 	{
-		tileSize = new Dimension(MainFrame.t.getTileSize(), MainFrame.t.getTileSize());
-		gridSize = new Dimension((MainFrame.t.getMapSize().x + 1) * tileSize.width + 1, (MainFrame.t.getMapSize().y + 1) * tileSize.height + 1);
-		deslocamento = new Point((MainFrame.LARG_DEFAULT / 2) - (gridSize.width / 2), (MainFrame.ALT_DEFAULT / 2) - (gridSize.height / 2));
-		System.out.println(gridSize);
 		setPos();
 	}
 	
 	public void setPos()
 	{
 		this.setLayout(null);
-		this.setSize(gridSize);
-		this.setPreferredSize(gridSize);
-		this.setLocation(deslocamento);
+		this.setSize(MainFrame.gridSize);
+		this.setPreferredSize(MainFrame.gridSize);
+		this.setLocation(MainFrame.deslocamento);
 		this.setOpaque(false);
+		
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				System.out.println("X : " + (e.getX() / MainFrame.tileSize.width));
+				System.out.println("Y : " + (e.getY() / MainFrame.tileSize.height));
+				MainFrame.t.goTo(new Point(e.getX() / MainFrame.tileSize.width, e.getY() / MainFrame.tileSize.height));
+			}
+		});
 	}
 	
 	public void paintComponent(Graphics g)
@@ -43,7 +46,7 @@ public class Grid extends JPanel{
 		ArrayList<Point> tile_points = MainFrame.t.getTiles();
 		
 		for (Point point : tile_points) {
-			drawTile(g2d, point, tileSize);
+			drawTile(g2d, point, MainFrame.tileSize);
 		}
 	} 
 	
@@ -57,4 +60,18 @@ public class Grid extends JPanel{
 		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg, alt);
 		g2d.draw(rectangle);
 	}
+	
+	private void drawPlayerBounds(Graphics2D g2d)
+	{
+		int posX = Player.position.x - MainFrame.deslocamento.x - MainFrame.tileSize.width;
+		int posY = Player.position.y - MainFrame.deslocamento.y - MainFrame.tileSize.height;
+		
+		int larg = Player.playerBounds.width;
+		int alt = Player.playerBounds.height;
+		
+		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg, alt);
+		g2d.setColor(Color.RED);
+		g2d.draw(rectangle);
+	}
+	
 }

@@ -12,9 +12,8 @@ import javax.swing.JPanel;
 
 public class Player extends JPanel{
 	
-	private Point position;
-	private Dimension size = Grid.tileSize;
-	public static Dimension playerBounds = new Dimension((MainFrame.LARG_DEFAULT / 10) * 8, (MainFrame.ALT_DEFAULT / 10) * 8);
+	public static Point position;
+	public static Dimension playerBounds = new Dimension(MainFrame.tileSize.width * 3, MainFrame.tileSize.height * 3);
 	
 	public Player()
 	{
@@ -24,8 +23,8 @@ public class Player extends JPanel{
 	public void setPos()
 	{
 		this.setLayout(null);
-		this.setSize(size);
-		this.setPreferredSize(size);
+		this.setSize(MainFrame.tileSize);
+		this.setPreferredSize(MainFrame.tileSize);
 		this.setOpaque(false);
 	}
 	
@@ -36,23 +35,27 @@ public class Player extends JPanel{
 		
 		Point player = MainFrame.t.getPlayerPos();
 		position = player;
-		position.x = (int) ((position.getX() * size.getWidth()) + Grid.deslocamento.x);
-		position.y = (int) ((position.getY() * size.getHeight()) + Grid.deslocamento.y);
+		position.x = (int) ((position.getX() * MainFrame.tileSize.getWidth()) + MainFrame.deslocamento.x);
+		position.y = (int) ((position.getY() * MainFrame.tileSize.getHeight()) + MainFrame.deslocamento.y);
 		this.setLocation(position);
 
 		drawPlayer(g2d);
+		
+		repaint();
 	} 
 	
 	private void drawPlayer(Graphics2D g2d)
 	{
 		// Desenha círculo com o mesmo centro
-		double cX=size.getWidth()/2;
-		double cY=size.getWidth()/2;
-		double raio=25.0/2;
+		double cX=MainFrame.tileSize.getWidth()/2;
+		double cY=MainFrame.tileSize.getWidth()/2;
+		double raio=MainFrame.tileSize.getWidth()/4;
 		
 		Ellipse2D circ = new Ellipse2D.Double();
 		circ.setFrameFromCenter(cX,cY,cX+raio,cY+raio);
 		g2d.setColor(Color.BLACK);
 		g2d.fill(circ);
 	}
+
+	
 }

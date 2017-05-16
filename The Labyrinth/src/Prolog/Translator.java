@@ -72,6 +72,14 @@ public class Translator {
 		MainFrame.mf.repaint();
 	}
 	
+	public void goTo(Point p)
+	{
+		this.query = this.prolog.doQuery("go_to("+ p.x +","+ p.y +").");
+		query.oneSolution();
+		
+		MainFrame.mf.repaint();
+	}
+	
 	private int convertTerm_Int(Term t)
 	{
 		return java.lang.Integer.parseInt(String.valueOf(t));
