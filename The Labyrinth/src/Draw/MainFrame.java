@@ -18,12 +18,12 @@ import Prolog.Translator;
 
 public class MainFrame extends JFrame {
 	
-	public final int LARG_DEFAULT = 300;
-	public final int ALT_DEFAULT = 300;
+	public static final int LARG_DEFAULT = 800;
+	public static final int ALT_DEFAULT = 600;
 	private JPanel panel = new JPanel();
 	
 	public static Translator t = new Translator();
-	public static MainFrame mf = new MainFrame("Teste");
+	public static MainFrame mf;
 
 	public MainFrame(String s)
 	{
@@ -40,14 +40,9 @@ public class MainFrame extends JFrame {
 		
 		panel.setBackground(Color.WHITE);
 		
-		ArrayList<Point> tile_points = t.getTiles();
-		Point player = MainFrame.t.getPlayerPos();
+		panel.add(new Grid());
 		
-		for (Point point : tile_points) {
-			panel.add(new Tile(point));
-		}
-		
-		panel.add(new Player(player));
+		panel.add(new Player());
 		
 		getContentPane().add(panel);
 		
@@ -57,24 +52,33 @@ public class MainFrame extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				
 				switch (e.getKeyChar()) {
-				case 'w':
-					System.out.println(e.getKeyChar());
-					t.doAcao("mover_cima");
-					break;
-
-				default:
-					break;
+					case 'w':
+						t.doAcao("mover_cima");
+						break;
+					case 's':
+						t.doAcao("mover_baixo");
+						break;
+					case 'd':
+						t.doAcao("mover_esquerda");
+						break;
+					case 'a':
+						t.doAcao("mover_direita");
+						break;
+	
+					default:
+						break;
 				}
 			}
 		});
 				
-		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
+		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT + 25);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	}
 	
 	public static void main(String[] args)
 	{
+		mf = new MainFrame("Teste");
 		mf.setVisible(true);
 	}
 }

@@ -13,14 +13,11 @@ import javax.swing.JPanel;
 public class Player extends JPanel{
 	
 	private Point position;
-	private Dimension size = new Dimension(50, 50);
+	private Dimension size = Grid.tileSize;
+	public static Dimension playerBounds = new Dimension((MainFrame.LARG_DEFAULT / 10) * 8, (MainFrame.ALT_DEFAULT / 10) * 8);
 	
-	public Player(Point p)
+	public Player()
 	{
-		position = p;
-		position.x = (int) (position.getX() * size.getWidth());
-		position.y = (int) (position.getY() * size.getHeight());
-		
 		setPos();
 	}
 	
@@ -29,7 +26,6 @@ public class Player extends JPanel{
 		this.setLayout(null);
 		this.setSize(size);
 		this.setPreferredSize(size);
-		this.setLocation(position);
 		this.setOpaque(false);
 	}
 	
@@ -37,6 +33,12 @@ public class Player extends JPanel{
 	{
 		super.paintComponents(g);
 		Graphics2D g2d=(Graphics2D) g;
+		
+		Point player = MainFrame.t.getPlayerPos();
+		position = player;
+		position.x = (int) ((position.getX() * size.getWidth()) + Grid.deslocamento.x);
+		position.y = (int) ((position.getY() * size.getHeight()) + Grid.deslocamento.y);
+		this.setLocation(position);
 
 		drawPlayer(g2d);
 	} 
