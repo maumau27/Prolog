@@ -7,18 +7,18 @@ strips1(Estado, ListaObjetivo, Plano, _, Estado, Plano):-
 	
 strips1(Estado, ListaObjetivo, Plano, AcaoRuim, NovoEstado, NovoPlano):-
 	member(Objetivo, ListaObjetivo),
-	write("tentando objetivo "),write(Objetivo),nl,
+	%write("tentando objetivo "),write(Objetivo),nl,
 	not(member(Objetivo, Estado)),
-	write("valido"),nl,
+	%write("valido"),nl,
 	ganho(Acao, Objetivo),
-	write("resolver com "),write(Acao),nl,
+	%write("resolver com "),write(Acao),nl,
 	not(member(Acao, AcaoRuim)),
-	write("valida"),nl,
+	%write("valida"),nl,
 	precond_list(Acao, PreList),
-	write("no estado "),write(Estado),nl,
-	write("novo Objetivo "),write(PreList),nl,nl,
+	%write("no estado "),write(Estado),nl,
+	%write("novo Objetivo "),write(PreList),nl,nl,
 	strips1(Estado, PreList, Plano, [Acao|AcaoRuim], EstadoTemporario, PlanoParcial),
-	aplica_regra(Acao, EstadoTemporario, EstadoParcial),write("fim"),nl,
+	aplica_regra(Acao, EstadoTemporario, EstadoParcial),%write("fim"),nl,
 	strips1(EstadoParcial, ListaObjetivo, [Acao|PlanoParcial], AcaoRuim, NovoEstado, NovoPlano).
 	
 	
@@ -58,7 +58,7 @@ regra_strips(unstack(X,Y),
 	
 regra_strips(Acao, PreCondicao, Ganho, Perda) :- regra(Acao, PreCondicao, Ganho, Perda).
 
-teste :- plan([lixo, estar(quarto)], [lixo, alimentado, dinheiro]).
+teste :- plan([estar(quarto), fome], [alimentado]).
 
 regra(
 	dormir,
@@ -116,8 +116,10 @@ adjacente(quarto, sala).
 adjacente(sala, cozinha).
 adjacente(porta, sala).
 
-
 adj(X, Y) :- adjacente(X, Y);adjacente(Y, X).
+adj(X, Y) :- adjacente(X, Z).
+adj(Y, Z).
+
 
 % Pretty-print Init, Goal, and Plan.
 plan(InitState, Goal) :-

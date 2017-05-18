@@ -1,6 +1,7 @@
 :- dynamic posicao_jogador/2.
+:- dynamic tile_size/1.
 
-tile_size(50).
+tile_size(30).
 
 tamanho_mapa(10, 10).
 
@@ -12,6 +13,8 @@ acao(mover_esquerda) :- posicao_jogador(X, Y), NX is X + 1, mapa(NX, Y), atualiz
 acao(mover_direita) :- posicao_jogador(X, Y), NX is X - 1, mapa(NX, Y), atualiza_posicao_jogador(NX, Y).
 
 atualiza_posicao_jogador(X, Y) :- retract( posicao_jogador(_, _) ), assert( posicao_jogador(X, Y) ), !.
+
+atualiza_tile_size(X) :- retract( tile_size(_) ), assert( tile_size(X) ), !.
 
 maior(H, [H]).
 maior(H, [H|T]) :- maior(M, T), H >= M.

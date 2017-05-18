@@ -1,6 +1,7 @@
 package Draw;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -11,6 +12,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -50,7 +53,7 @@ public class MainFrame extends JFrame {
 		
 		//panel.add(new Grid());
 		
-		panel.add(new Player());
+		
 		panel.add(new Grid());
 		add(panel);
 		
@@ -78,6 +81,12 @@ public class MainFrame extends JFrame {
 				}
 			}
 		});
+		
+		addMouseWheelListener(new MouseWheelListener() {
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				MainFrame.t.changeTileSize(e.getWheelRotation());
+			}
+		});
 				
 		setLocation(new Point(x,y));
 		getContentPane().setPreferredSize(new Dimension(LARG_DEFAULT,ALT_DEFAULT));
@@ -93,9 +102,22 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	public void addComponent(Component c)
+	{
+		panel.add(c);
+	}
+	
+	public void Clear()
+	{
+		panel.removeAll();
+	}
+	
 	public static void main(String[] args)
 	{
 		mf = new MainFrame("Teste");
+//		JFrame mf2 = new JFrame("Teste2");
+//		mf2.setBounds(200, 200, 100, 100);
+//		mf2.setVisible(true);
 		mf.setVisible(true);
 	}
 }
