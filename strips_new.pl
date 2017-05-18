@@ -1,7 +1,7 @@
 %% Strips in prolog. November 2006.  Tim Finin.  finin@umbc.edu
 
 % LIBRARIES -- load our local dbug utility
-:- ensure_loaded(dbug).
+%:- ensure_loaded(dbug).
 
 /* **********************************************************************
 

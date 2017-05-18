@@ -1,27 +1,20 @@
-%estado(na_janela, no_chao, na_porta, nao_tem).
+exe(L) :- plan(estado(na_janela, no_chao, na_porta, nao_tem), estado(na_porta, no_chao, _, tem), L).
 
-plan(EstadoInicial, EstadoInicial, []).
-	
-plan(EstadoInicial, Objetivo, NL):-
-	acao(EstadoInicial, X, Objetivo),
-	append(X, [], NL).
+plan(Objetivo, Objetivo, []).
+plan(EstadoInicial, Objetivo, [X|L]):-
+	plan(Parcial, Objetivo, L),
+	acao(EstadoInicial, X, Parcial).
 
 acao(
-	estado(Pos1, no_chao, Caixa, Banana),
-	mover(Pos1, Pos2),
-	estado(Pos2, no_chao, Caixa, Banana)
+	estado(P1, no_chao, P1, Banana),
+	empurrar_caixa(P1, P2),
+	estado(P2, no_chao, P2, Banana)
 	).
 	
 acao(
-	estado(Pos, no_chao, Pos, Banana),
-	subir,
-	estado(Pos, acima_caixa, Pos, Banana)
-	).
-	
-acao(
-	estado(Pos, acima_caixa, Pos, Banana),
+	estado(P, acima_caixa, Caixa, Banana),
 	descer,
-	estado(Pos, no_chao, Pos, Banana)
+	estado(P, no_chao, Caixa, Banana)
 	).
 	
 acao(
@@ -29,11 +22,16 @@ acao(
 	pegar_banana,
 	estado(no_centro, acima_caixa, no_centro, tem)
 	).
-	
+
 acao(
-	estado(Pos1, acima_caixa, Pos1, Banana),
-	empurar_caixa(Pos1, Pos2),
-	estado(Pos2, acima_caixa, Pos2, Banana)
+	estado(P, no_chao, P, Banana),
+	subir,
+	estado(P, acima_caixa, P, Banana)
 	).
-	
-append(X, L, [X|L]).
+
+acao(
+	estado(P1, no_chao, Caixa, Banana),
+	caminhar(P1, P2),
+	estado(P2, no_chao, Caixa, Banana)
+	).
+		
