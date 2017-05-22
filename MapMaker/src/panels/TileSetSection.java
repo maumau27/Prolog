@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import managers.Controller;
@@ -17,9 +18,9 @@ import managers.Controller;
 public class TileSetSection extends JPanel{
 	
 	private Point position = new Point(0, 0);
-	private Dimension size = new Dimension(Controller.mainFrame.LARG_DEFAULT / 3 , Controller.mainFrame.ALT_DEFAULT);
+	private Dimension size = new Dimension(Controller.mainFrame.LARG_DEFAULT , Controller.mainFrame.ALT_DEFAULT);
 	
-	public TileSetSection()
+	public TileSetSection(JFrame frame)
 	{
 		setPos();
 	}
@@ -31,12 +32,6 @@ public class TileSetSection extends JPanel{
 		this.setPreferredSize(size);
 		this.setLocation(position);
 		this.setOpaque(false);
-		
-		addMouseWheelListener(new MouseWheelListener() {
-			public void mouseWheelMoved(MouseWheelEvent e) {
-				
-			}
-		});
 	}
 	
 	public void paintComponent(Graphics g)

@@ -25,34 +25,34 @@ public class KeyboardController implements KeyListener{
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyChar()) {
-		case 'c':
-			Controller.grid.CenterGrid();
-			break;
-			
-		case 'a':
-			if(!moveButtonPressed)
-				MouseMotionController.lastMousePosition = MouseInfo.getPointerInfo().getLocation();
-				moveButtonPressed = true;
-			break;
-
-		default:
-			break;
+		switch (e.getKeyCode()) {
+			case 67:
+				Controller.grid.CenterGrid();
+				break;
+				
+			case 32:
+				if(!moveButtonPressed)
+					MouseMotionController.lastMousePosition = MouseInfo.getPointerInfo().getLocation();
+					moveButtonPressed = true;
+				break;
+	
+			default:
+				break;
 		}
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		switch (e.getKeyChar()) {
-		case 'c':
-			Controller.grid.CenterGrid();
-			break;
-			
-		case 'a':
-			moveButtonPressed = false;
-			break;
-
-		default:
-			break;
+		switch (e.getKeyCode()) {
+			case 67:
+				Controller.grid.CenterGrid();
+				break;
+				
+			case 32:
+				moveButtonPressed = false;
+				break;
+	
+			default:
+				break;
 		}
 	}
 }

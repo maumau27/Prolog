@@ -1,51 +1,44 @@
 package frames;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
-import javax.swing.JButton;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import components.MainFrameMenu;
-import managers.Controller;
 import managers.KeyboardController;
-import panels.Grid;
-import panels.GridSection;
 import panels.TileSetSection;
 
-public class MainFrame extends JFrame {
+public class TileSetFrame extends JFrame {
 	
-	public static final int LARG_DEFAULT = 1200;
-	public static final int ALT_DEFAULT = 800;
+	public final int LARG_DEFAULT;
+	public final int ALT_DEFAULT;
+	
+	private BufferedImage tileSet;
 	private JPanel panel = new JPanel();
-	public GridSection gridSection;
-	public TileSetSection tileSetSection;
-	public MainFrameMenu mainMenu;
 	
-	public MainFrame(String s)
+	public TileSetFrame(String s, File file)
 	{
 		super(s);
+		
+		try {
+			tileSet = ImageIO.read(file);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		LARG_DEFAULT = tileSet.getWidth() + 1;
+		ALT_DEFAULT = tileSet.getHeight() + 1;
 
 		InitializePanel();
-		
-		gridSection = new GridSection();
-		panel.add(gridSection);
-		
-		mainMenu = new MainFrameMenu();
-		setJMenuBar(mainMenu.menuBar);
-		
-		addKeyListener(new KeyboardController());
 		
 		setConfig();
 	}

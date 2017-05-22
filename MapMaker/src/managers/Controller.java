@@ -18,6 +18,7 @@ import components.*;
 import components.MainFrameMenu.Menu;
 import frames.MainFrame;
 import frames.PopUpFrame;
+import frames.TileSetFrame;
 import panels.*;
 import prolog.Translator;
 
@@ -25,6 +26,7 @@ public class Controller {
 	
 	public static Translator translator = new Translator();
 	public static MainFrame mainFrame = new MainFrame("MapMaker");
+	public static TileSetFrame tileSetFrame;
 	public static PopUpFrame popUpFrame;
 	public static Controller controller;
 	public static Grid grid = null;
@@ -33,16 +35,6 @@ public class Controller {
 	public static void main(String[] args)
 	{
 		mainFrame.setVisible(true);
-		
-//		BufferedImage img = null;
-//		try {
-//		    img = ImageIO.read(new File("images/CandidatarOK.png"));
-//		} 
-//		catch (IOException e) {
-//			
-//		}
-//		System.out.println(img.getWidth());
-//		System.out.println(img.getHeight());
 
 		return;
 	}
@@ -188,17 +180,19 @@ public class Controller {
 	{
 		DeleteTileSet();
 		
+		tileSetFrame = new TileSetFrame("Tile Set", file);
 		tileSet = new TileSet(file);
-		mainFrame.tileSetSection.add(tileSet);
-		mainFrame.reDraw();
+		tileSetFrame.panelAdd(tileSet);
+		tileSetFrame.setVisible(true);
 	}
 	
 	public static void DeleteTileSet()
 	{
 		if(tileSet != null)
 		{
-			mainFrame.tileSetSection.remove(tileSet);
-			mainFrame.reDraw();
+			tileSetFrame.panelRemove(tileSet);
+			tileSetFrame.reDraw();
+			tileSetFrame.setVisible(false);
 			tileSet = null;
 		}
 	}

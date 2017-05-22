@@ -90,6 +90,16 @@ public class Grid extends JPanel{
 		int larg = size.width;
 		int alt = size.height;
 		
+		try {
+			if(tile.tileType <= (Controller.tileSet.getTileCount() - 1) && tile.tileType != -1)
+			{
+				g2d.drawImage(Controller.tileSet.sprites.getSprite(tile.tileType), posX, posY, larg, alt, null);
+			}
+		} catch (Exception e) {
+			System.out.println("Tile Set não carregado");
+			System.out.println(e);
+		}
+		
 		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg, alt);
 		switch (tile.collisionType) 
 		{
@@ -105,7 +115,7 @@ public class Grid extends JPanel{
 			default:
 				break;
 		}
-		
+
 		//g2d.fill(rectangle);
 	}
 }

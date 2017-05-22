@@ -18,7 +18,27 @@ public class GridMouseController implements MouseListener{
 		
 		switch (settingType) {
 			case TILE_TYPE:
-	
+				
+				
+				switch (e.getButton()) 
+				{
+					case 1:
+						try {
+							Controller.translator.changeTileType(new Point((e.getX() - Controller.grid.getGridPosition().x) / Controller.grid.getTileSize().width, (e.getY() - Controller.grid.getGridPosition().y) / Controller.grid.getTileSize().height), Controller.tileSet.selectedType);
+							Controller.mainFrame.reDraw();
+						} catch (Exception e2) {
+							System.out.println(e2);
+						}
+						break;
+						
+					case 3:
+						Controller.translator.changeTileType(new Point((e.getX() - Controller.grid.getGridPosition().x) / Controller.grid.getTileSize().width, (e.getY() - Controller.grid.getGridPosition().y) / Controller.grid.getTileSize().height), -1);
+						Controller.mainFrame.reDraw();
+						break;
+			
+					default:
+						break;
+				}
 				break;
 				
 			case COLLISION_TYPE:

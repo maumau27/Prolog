@@ -24,8 +24,8 @@ import managers.MouseMotionController;
 
 public class GridSection extends JPanel{
 	
-	private Point position = new Point(Controller.mainFrame.LARG_DEFAULT / 3, 0);
-	private Dimension size = new Dimension(2*Controller.mainFrame.LARG_DEFAULT / 3, Controller.mainFrame.ALT_DEFAULT);
+	private Point position = new Point(0, 0);
+	private Dimension size = new Dimension(Controller.mainFrame.LARG_DEFAULT, Controller.mainFrame.ALT_DEFAULT);
 	public GridMouseController mouseController;
 	
 	public GridSection()

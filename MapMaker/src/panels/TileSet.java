@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 
 import components.Tile;
 import managers.Controller;
+import managers.MouseMotionController;
+import managers.SpriteSheet;
+import managers.TileSetMouseController;
 
 public class TileSet extends JPanel{
 	
@@ -26,10 +29,12 @@ public class TileSet extends JPanel{
 	private File tileSetFile;
 	private BufferedImage tileSet;
 	
-	private int tileSetLargCount;
-	private int tileSetAltCount;
+	private int imgLargCount;
+	private int imgAltCount;
 	
-	public BufferedImage[] sprites;
+	public int selectedType;
+	
+	public SpriteSheet sprites;
 	
 	public TileSet(File file)
 	{
@@ -40,16 +45,16 @@ public class TileSet extends JPanel{
 			System.out.println(e);
 		}
 		
-		int imgLargCount = tileSet.getWidth() / tileSize.width;
-		int imgAltCount = tileSet.getHeight() / tileSize.height;
+		imgLargCount = tileSet.getWidth() / tileSize.width;
+		imgAltCount = tileSet.getHeight() / tileSize.height;
 		tileSetCount = imgLargCount * imgAltCount;
-		tileSetLargCount = ((Controller.mainFrame.tileSetSection.getSize().width - 2) / Controller.translator.getTileSet_TileSize());
-		tileSetAltCount = tileSetCount / tileSetLargCount;
-		gridSize = new Dimension(tileSetLargCount * tileSize.width, tileSetAltCount * tileSize.height);
-		size = new Dimension(gridSize.width + 1, gridSize.height + 1);
+		gridSize = new Dimension(tileSet.getWidth(), tileSet.getHeight());
+		size = new Dimension(Controller.tileSetFrame.LARG_DEFAULT, Controller.tileSetFrame.ALT_DEFAULT);
+		
+		selectedType = 0;
 		
 		setPos();
-		//setTileSet();
+		buildTileSet();
 	}
 	
 	public void setPos()
@@ -59,29 +64,50 @@ public class TileSet extends JPanel{
 		this.setPreferredSize(size);
 		this.setLocation(position);
 		this.setOpaque(false);
+		
+		addMouseListener(new TileSetMouseController());
 	}
 	
-	public void setTileSet()
-	{	//TODO - Terminar de separar o spriteSheet
-		int width = tileSize.width;
-		int height = tileSize.height;
-		int rows = tileSet.getWidth() / tileSize.width;
-		int cols = tileSet.getHeight() / tileSize.height;
-		sprites = new BufferedImage[rows * cols];
-
-		for (int i = 0; i < rows; i++)
-		{
-		    for (int j = 0; j < cols; j++)
-		    {
-		        sprites[(i * cols) + j] = tileSet.getSubimage(
-		            j * width,
-		            i * height,
-		            width,
-		            height
-		        );
-		    }
-		}
+	public Point getTileSetPosition()
+	{
+		return position;
 	}
+	
+    public void buildTileSet() {
+        int count = tileSetCount;
+        int cols = imgLargCount;
+        int rows = imgAltCount;
+        
+        if (count == 0) {
+            count = rows * cols;
+        }
+
+        BufferedImage sheet = tileSet;
+
+        int width = tileSize.width;
+        int height = tileSize.height;
+        if (width == 0) {
+            width = sheet.getWidth() / cols;
+        }
+        if (height == 0) {
+            height = sheet.getHeight() / rows;
+        }
+
+        int x = 0;
+        int y = 0;
+        ArrayList<BufferedImage> sprites = new ArrayList<>(count);
+
+        for (int index = 0; index < count; index++) {
+            sprites.add(sheet.getSubimage(x, y, width, height));
+            x += width;
+            if (x >= width * cols) {
+                x = 0;
+                y += height;
+            }
+        }
+
+       	this.sprites = new SpriteSheet(sprites);
+    }
 	
 	public void paintComponent(Graphics g)
 	{
@@ -89,13 +115,29 @@ public class TileSet extends JPanel{
 		Graphics2D g2d=(Graphics2D) g;
 
 		int spriteId = 0;
-		for (int i = 0; i < tileSetLargCount; i++) {
-			for (int j = 0; j < tileSetAltCount; j++) {
-				drawTile(g2d, new Point(i, j), tileSize, spriteId);
+		for (int i = 0; i < imgAltCount; i++) {
+			for (int j = 0; j < imgLargCount; j++) {
+				drawTile(g2d, new Point(j, i), tileSize, spriteId);
 				spriteId++;
 			}
 		}
 	} 
+	
+	public int getTileCount()
+	{
+		return tileSetCount;
+	}
+	
+	public Dimension getTileSize()
+	{
+		return tileSize;
+	}
+	
+	public int tileSet_PointToType(Point pos)
+	{
+		
+		return (pos.y * imgLargCount) + pos.x;
+	}
 	
 	private void drawTile(Graphics2D g2d, Point pos, Dimension size, int id)
 	{
@@ -106,10 +148,17 @@ public class TileSet extends JPanel{
 		
 		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg, alt);
 		
-		g2d.setColor(Color.RED);
-		g2d.draw(rectangle);
+		g2d.drawImage(sprites.getSprite(id), posX, posY, larg, alt, null);
 		
-		//g2d.drawImage(sprites[id], posX, posY, larg, alt, null);	
-		//g2d.fill(rectangle);
+		if(selectedType == id)
+		{
+			g2d.setColor(Color.RED);
+			g2d.fill(rectangle);
+		}	
+		else
+		{
+			g2d.setColor(Color.BLACK);
+			g2d.draw(rectangle);
+		}
 	}
 }

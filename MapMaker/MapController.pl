@@ -10,7 +10,7 @@ generate_grid_aux(-1, 0, _) :- !.
 generate_grid_aux(-1, Y, I) :- NY is Y - 1, generate_grid_aux(I, NY, I), !.
 generate_grid_aux(X, Y, I) :- 
 	NX is X - 1,
-	add_grid(X, Y, 0, 0),
+	add_grid(X, Y, -1, 0),
 	generate_grid_aux(NX, Y, I).
 	
 update_grid_size(X, Y) :- (retract( grid_size(_, _) ) ; true), assert( grid_size(X, Y) ), !.
