@@ -53,7 +53,6 @@ public class MainFrame extends JFrame {
 		
 		//panel.add(new Grid());
 		
-		
 		panel.add(new Grid());
 		add(panel);
 		
@@ -115,6 +114,7 @@ public class MainFrame extends JFrame {
 	public static void main(String[] args)
 	{
 		mf = new MainFrame("Teste");
+		t.MakeMap();
 //		JFrame mf2 = new JFrame("Teste2");
 //		mf2.setBounds(200, 200, 100, 100);
 //		mf2.setVisible(true);

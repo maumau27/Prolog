@@ -56,6 +56,16 @@ public class Translator {
 		return new Point(convertTerm_Int(solution.get("X")), convertTerm_Int(solution.get("Y")));
 	}
 	
+	public void MakeMap()
+	{
+		Map<String, Term> solution;
+		
+		this.query = this.prolog.doQuery("tamanho_mapa(X, Y), gerar_mapa(X, Y).");
+		solution = query.oneSolution();
+		
+		return;
+	}
+	
 	public int getTileSize()
 	{
 		Map<String, Term> solution;
