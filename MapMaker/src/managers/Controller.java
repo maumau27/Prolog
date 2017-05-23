@@ -98,7 +98,6 @@ public class Controller {
 	
 	public static void LoadGrid(File file)
 	{
-		DeleteGrid();
 		try 
 		{
 			FileReader fileReader = new FileReader(file);
@@ -118,6 +117,7 @@ public class Controller {
 				line = bufferedFile.readLine();
 			}
 			
+			DeleteGrid();
 			CreateGrid(new Grid());
 			
 			bufferedFile.close();

@@ -76,6 +76,7 @@ public class Translator {
 	public void changeTileSize(int ammount)
 	{
 		Dimension newSize = new Dimension(getTileSize().width + ammount, getTileSize().height + ammount);
+		System.out.println(newSize);
 		if(newSize.width >= 1 && newSize.height >= 1)
 		{
 			this.query = this.prolog.doQuery("update_tile_size(" + newSize.width +","+ newSize.height +").");
