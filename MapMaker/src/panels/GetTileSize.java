@@ -25,9 +25,11 @@ public class GetTileSize extends JPanel implements ActionListener{
 	private Point position = new Point(0, 0);
 	private Dimension size = new Dimension(Controller.popUpFrame.POP_LARG_DEFAULT, Controller.popUpFrame.POP_ALT_DEFAULT);
 	
-	private JLabel tileSizeLabel;
-	private JTextField tileSize;
-	private JButton salvar;
+	private JLabel tileSizeWidthLabel;
+	private JLabel tileSizeHeightLabel;
+	private JTextField tileSizeWidth;
+	private JTextField tileSizeHeight;
+	private JButton gerar;
 	private File file;
 	
 	public GetTileSize(File file)
@@ -44,18 +46,26 @@ public class GetTileSize extends JPanel implements ActionListener{
 		this.setLocation(position);
 		this.setOpaque(false);
 		
-		tileSizeLabel = new JLabel("Tile Size : ");
-		tileSizeLabel.setBounds(20, 0, 70, 70);
-		add(tileSizeLabel);
+		tileSizeWidthLabel = new JLabel("Informe Largura : ");
+		tileSizeWidthLabel.setBounds(10, 0, 120, 70);
+		add(tileSizeWidthLabel);
 		
-		tileSize = new JTextField();
-		tileSize.setBounds(90, 20, 50, 30);
-		add(tileSize);
+		tileSizeHeightLabel = new JLabel("Informe Altura : ");
+		tileSizeHeightLabel.setBounds(10, 40, 120, 70);
+		add(tileSizeHeightLabel);
 		
-		salvar = new JButton("Salvar");
-		salvar.setBounds(150, 20, 80, 30);
-		salvar.addActionListener(this);
-		add(salvar);
+		tileSizeWidth = new JTextField();
+		tileSizeWidth.setBounds(115, 20, 50, 30);
+		add(tileSizeWidth);
+		
+		tileSizeHeight = new JTextField();
+		tileSizeHeight.setBounds(115, 60, 50, 30);
+		add(tileSizeHeight);
+		
+		gerar = new JButton("Gerar");
+		gerar.setBounds(175, 20, 70, 70);
+		gerar.addActionListener(this);
+		add(gerar);
 	}
 	
 	public Point getPosition()
@@ -76,8 +86,8 @@ public class GetTileSize extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		int size = java.lang.Integer.parseInt(tileSize.getText());
-		if(size != 0)
+		Dimension size = new Dimension(java.lang.Integer.parseInt(tileSizeWidth.getText()), java.lang.Integer.parseInt(tileSizeHeight.getText()));
+		if(size.width != 0 && size.height != 0)
 		{
 			Controller.translator.setTileSet_TileSize(size);
 			Controller.CreateTileSet(file);

@@ -1,6 +1,7 @@
 package managers;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.image.BufferedImage;
@@ -52,6 +53,9 @@ public class Controller {
 	{
 		DeleteGrid();
 		
+		if(!translator.hasTileSize())
+			translator.setTileSize(new Dimension(30, 30));
+		
 		translator.GenerateGrid(translator.getGridSize());
 		grid = new Grid();
 		mainFrame.gridSection.add(grid);
@@ -59,6 +63,7 @@ public class Controller {
 		mainFrame.reDraw();
 		
 		mainFrame.mainMenu.createGridMenu();
+		mainFrame.mainMenu.createFilterMenu();
 		mainFrame.setJMenuBar(mainFrame.mainMenu.menuBar);
 	}
 	
@@ -71,7 +76,9 @@ public class Controller {
 		grid.CenterGrid();
 		mainFrame.reDraw();
 		
+		System.out.println("OI");
 		mainFrame.mainMenu.createGridMenu();
+		mainFrame.mainMenu.createFilterMenu();
 		mainFrame.setJMenuBar(mainFrame.mainMenu.menuBar);
 	}
 	
@@ -82,6 +89,7 @@ public class Controller {
 			mainFrame.gridSection.remove(grid);
 			mainFrame.reDraw();
 			mainFrame.mainMenu.DeleteGridMenu();
+			mainFrame.mainMenu.DeleteFilterMenu();
 			mainFrame.setJMenuBar(mainFrame.mainMenu.menuBar);
 			translator.ClearGrid();
 			grid = null;
@@ -169,11 +177,21 @@ public class Controller {
 	
 	public static void GetTileSet_TileSize(File file)
 	{
-		mainFrame.disable();
-		popUpFrame = new PopUpFrame("Tile Size");
-		popUpFrame.setVisible(true);
-		popUpFrame.ClearPanel();
-		popUpFrame.panelAdd(new GetTileSize(file));
+		try
+		{
+			if(file.exists())
+			{
+				mainFrame.disable();
+				popUpFrame = new PopUpFrame("Tile Size");
+				popUpFrame.setVisible(true);
+				popUpFrame.ClearPanel();
+				popUpFrame.panelAdd(new GetTileSize(file));
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 	
 	public static void CreateTileSet(File file)

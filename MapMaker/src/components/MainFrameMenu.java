@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle.Control;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -22,6 +23,7 @@ import javax.swing.KeyStroke;
 import components.MainFrameMenu.Menu;
 import managers.Controller;
 import managers.GridMouseController.setType;
+import panels.Grid.Filter;
 
 public class MainFrameMenu implements ActionListener, ItemListener{
 	
@@ -41,11 +43,12 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 			itemListener = il;
 		}
 		
-		public void addItem(String text)
+		public void addItem(String text, int mnemonic)
 		{
 			JMenuItem menuItem;
 			menuItem = new JMenuItem(text);
 			menuItem.addActionListener(actionListener);
+			menuItem.setMnemonic(mnemonic);
 			menu.add(menuItem);
 			itenList.put(text, menuItem);
 		}
@@ -92,7 +95,7 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 	}
 	
 	public JMenuBar menuBar;
-	public Menu FileMenu, LoadSubmenu, GridMenu;
+	public Menu FileMenu, LoadSubmenu, GridMenu, FilterMenu;
 	public JFileChooser fileChooser = new JFileChooser();
 	
 	public MainFrameMenu()
@@ -100,14 +103,14 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 		menuBar = new JMenuBar();
 		
 		FileMenu = new Menu("File", this, this);
-		FileMenu.addItem("New");
+		FileMenu.addItem("New", KeyEvent.VK_N);
 		LoadSubmenu = new Menu("Load", this, this);
-		LoadSubmenu.addItem("Grid");
-		LoadSubmenu.addItem("TileSet");
+		LoadSubmenu.addItem("Map", KeyEvent.VK_M);
+		LoadSubmenu.addItem("TileSet", KeyEvent.VK_T);
 		FileMenu.addSubMenu(LoadSubmenu);
-		FileMenu.addItem("Save");
+		FileMenu.addItem("Save", KeyEvent.VK_S);
 		FileMenu.addSeparator();
-		FileMenu.addItem("Exit");
+		FileMenu.addItem("Exit", KeyEvent.VK_E);
 		
 		menuBar.add(FileMenu.getMenu());
 	}
@@ -115,16 +118,33 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 	public void createGridMenu()
 	{
 		GridMenu = new Menu("Grid", this, this);
-		GridMenu.addItem("Center");
-		GridMenu.addItem("Set Collision");
-		GridMenu.addItem("Delete");
+		GridMenu.addItem("Center", KeyEvent.VK_C);
+		GridMenu.addItem("Set Collision", KeyEvent.VK_L);
+		GridMenu.addItem("Add Background", KeyEvent.VK_B);
+		GridMenu.addItem("Delete", KeyEvent.VK_D);
 		menuBar.add(GridMenu.getMenu());
+		menuBar.repaint();
+	}
+	
+	public void createFilterMenu()
+	{
+		FilterMenu = new Menu("Filters", this, this);
+		FilterMenu.addItem("Background", KeyEvent.VK_B);
+		FilterMenu.addItem("Grid", KeyEvent.VK_G);
+		FilterMenu.addItem("Tile", KeyEvent.VK_T);
+		FilterMenu.addItem("Collision", KeyEvent.VK_C);
+		menuBar.add(FilterMenu.getMenu());
 		menuBar.repaint();
 	}
 	
 	public void DeleteGridMenu()
 	{
 		menuBar.remove(GridMenu.getMenu());
+	}
+	
+	public void DeleteFilterMenu()
+	{
+		menuBar.remove(FilterMenu.getMenu());
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -144,7 +164,7 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 			case "Delete":
 				Controller.DeleteGrid();
 				break;
-			case "Grid":
+			case "Map":
 				fileChooser.showOpenDialog(Controller.mainFrame);
 				Controller.LoadGrid(fileChooser.getSelectedFile());
 				break;
@@ -155,6 +175,40 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 			case "TileSet":
 				fileChooser.showOpenDialog(Controller.mainFrame);
 				Controller.GetTileSet_TileSize(fileChooser.getSelectedFile());
+				break;
+			case "Add Background":
+				fileChooser.showOpenDialog(Controller.mainFrame);
+				Controller.grid.setBackGround(fileChooser.getSelectedFile());
+				Controller.mainFrame.reDraw();
+				break;
+				
+			case "Background":
+				if(Controller.grid.hasFilter(Filter.BACKGROUND))
+					Controller.grid.removeFilter(Filter.BACKGROUND);
+				else
+					Controller.grid.addFilter(Filter.BACKGROUND);
+				Controller.mainFrame.reDraw();
+				break;
+			case "Grid":
+				if(Controller.grid.hasFilter(Filter.GRID))
+					Controller.grid.removeFilter(Filter.GRID);
+				else
+					Controller.grid.addFilter(Filter.GRID);
+				Controller.mainFrame.reDraw();
+				break;
+			case "Tile":
+				if(Controller.grid.hasFilter(Filter.TILE))
+					Controller.grid.removeFilter(Filter.TILE);
+				else
+					Controller.grid.addFilter(Filter.TILE);
+				Controller.mainFrame.reDraw();
+				break;
+			case "Collision":
+				if(Controller.grid.hasFilter(Filter.COLLISION))
+					Controller.grid.removeFilter(Filter.COLLISION);
+				else
+					Controller.grid.addFilter(Filter.COLLISION);	
+				Controller.mainFrame.reDraw();
 				break;
 	
 			default:

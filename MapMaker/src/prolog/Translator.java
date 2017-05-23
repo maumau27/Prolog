@@ -33,32 +33,38 @@ public class Translator {
 		return new Point(convertTerm_Int(solution.get("X")), convertTerm_Int(solution.get("Y")));
 	}
 	
-	public int getTileSet_TileSize()
+	public Dimension getTileSet_TileSize()
 	{
 		Map<String, Term> solution;
 		
-		this.query = this.prolog.doQuery("tileSet_tileSize(S).");
+		this.query = this.prolog.doQuery("tileSet_tileSize(X, Y).");
 		solution = query.oneSolution();
 		
-		return convertTerm_Int(solution.get("S"));
+		return new Dimension(convertTerm_Int(solution.get("X")), convertTerm_Int(solution.get("Y")));
 	}
 	
-	public void setTileSet_TileSize(int tileSize)
+	public void setTileSet_TileSize(Dimension tileSize)
 	{
 		Map<String, Term> solution;
 		
-		this.query = this.prolog.doQuery("update_tileSet_tileSize("+ tileSize +").");
+		this.query = this.prolog.doQuery("update_tileSet_tileSize("+ tileSize.width +","+ tileSize.height+").");
 		solution = query.oneSolution();
 	}
 	
-	public int getTileSize()
+	public Boolean hasTileSize()
+	{
+		this.query = this.prolog.doQuery("tile_size(_, _).");
+		return query.hasSolution();
+	}
+	
+	public Dimension getTileSize()
 	{
 		Map<String, Term> solution;
 		
-		this.query = this.prolog.doQuery("tile_size(S).");
+		this.query = this.prolog.doQuery("tile_size(X, Y).");
 		solution = query.oneSolution();
 		
-		return convertTerm_Int(solution.get("S"));
+		return new Dimension(convertTerm_Int(solution.get("X")), convertTerm_Int(solution.get("Y")));
 	}
 	
 	public void GenerateGrid(Point size)
@@ -69,12 +75,18 @@ public class Translator {
 	
 	public void changeTileSize(int ammount)
 	{
-		int value = getTileSize() + ammount;
-		if(value >= 1)
+		Dimension newSize = new Dimension(getTileSize().width + ammount, getTileSize().height + ammount);
+		if(newSize.width >= 1 && newSize.height >= 1)
 		{
-			this.query = this.prolog.doQuery("update_tile_size(" + value +").");
+			this.query = this.prolog.doQuery("update_tile_size(" + newSize.width +","+ newSize.height +").");
 			query.allSolutions();
 		}
+	}
+	
+	public void setTileSize(Dimension size)
+	{
+		this.query = this.prolog.doQuery("update_tile_size(" + size.width +","+ size.height +").");
+		query.allSolutions();
 	}
 	
 	public void changeTileType(Point tile, int tileType)

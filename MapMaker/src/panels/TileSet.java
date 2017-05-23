@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.ResourceBundle.Control;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -21,7 +22,7 @@ import managers.TileSetMouseController;
 
 public class TileSet extends JPanel{
 	
-	private Dimension tileSize = new Dimension(Controller.translator.getTileSet_TileSize(), Controller.translator.getTileSet_TileSize());
+	private Dimension tileSize = Controller.translator.getTileSet_TileSize();
 	private Point position = new Point(0, 0);
 	private Dimension gridSize;
 	private Dimension size;
@@ -32,7 +33,9 @@ public class TileSet extends JPanel{
 	private int imgLargCount;
 	private int imgAltCount;
 	
+	public Point selectedTile;
 	public int selectedType;
+	public Dimension selectBox;
 	
 	public SpriteSheet sprites;
 	
@@ -45,6 +48,14 @@ public class TileSet extends JPanel{
 			System.out.println(e);
 		}
 		
+		try {
+			Controller.translator.setTileSize(tileSize);
+			Controller.grid.updateTileSize();
+			Controller.mainFrame.reDraw();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		imgLargCount = tileSet.getWidth() / tileSize.width;
 		imgAltCount = tileSet.getHeight() / tileSize.height;
 		tileSetCount = imgLargCount * imgAltCount;
@@ -52,6 +63,8 @@ public class TileSet extends JPanel{
 		size = new Dimension(Controller.tileSetFrame.LARG_DEFAULT, Controller.tileSetFrame.ALT_DEFAULT);
 		
 		selectedType = 0;
+		selectedTile = new Point(0, 0);
+		selectBox = new Dimension(1, 1);
 		
 		setPos();
 		buildTileSet();
@@ -139,6 +152,14 @@ public class TileSet extends JPanel{
 		return (pos.y * imgLargCount) + pos.x;
 	}
 	
+	public Boolean in_SelectionBox(Point point)
+	{
+		if(point.x >= selectedTile.x && point.y >= selectedTile.y)
+			if(point.x <= (selectedTile.x + (selectBox.width - 1)) && point.y <= (selectedTile.y + (selectBox.height - 1)))
+				return true;
+		return false;
+	}
+	
 	private void drawTile(Graphics2D g2d, Point pos, Dimension size, int id)
 	{
 		int posX = pos.x * size.width;
@@ -146,14 +167,14 @@ public class TileSet extends JPanel{
 		int larg = size.width;
 		int alt = size.height;
 		
-		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg, alt);
+		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg - 1, alt - 1);
 		
-		g2d.drawImage(sprites.getSprite(id), posX, posY, larg, alt, null);
+		g2d.drawImage(sprites.getSprite(id), posX, posY, larg-1, alt-1, null);
 		
-		if(selectedType == id)
+		if(in_SelectionBox(pos))
 		{
-			g2d.setColor(Color.RED);
-			g2d.fill(rectangle);
+			g2d.setColor(Color.RED);repaint();
+			g2d.draw(rectangle);
 		}	
 		else
 		{

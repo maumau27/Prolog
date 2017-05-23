@@ -24,7 +24,8 @@ public class GridMouseController implements MouseListener{
 				{
 					case 1:
 						try {
-							Controller.translator.changeTileType(new Point((e.getX() - Controller.grid.getGridPosition().x) / Controller.grid.getTileSize().width, (e.getY() - Controller.grid.getGridPosition().y) / Controller.grid.getTileSize().height), Controller.tileSet.selectedType);
+							Point p = new Point((e.getX() - Controller.grid.getGridPosition().x) / Controller.grid.getTileSize().width, (e.getY() - Controller.grid.getGridPosition().y) / Controller.grid.getTileSize().height);
+							Controller.grid.setMultiplesTiles(p, Controller.tileSet.selectBox);
 							Controller.mainFrame.reDraw();
 						} catch (Exception e2) {
 							System.out.println(e2);
@@ -32,7 +33,8 @@ public class GridMouseController implements MouseListener{
 						break;
 						
 					case 3:
-						Controller.translator.changeTileType(new Point((e.getX() - Controller.grid.getGridPosition().x) / Controller.grid.getTileSize().width, (e.getY() - Controller.grid.getGridPosition().y) / Controller.grid.getTileSize().height), -1);
+						Point p = new Point((e.getX() - Controller.grid.getGridPosition().x) / Controller.grid.getTileSize().width, (e.getY() - Controller.grid.getGridPosition().y) / Controller.grid.getTileSize().height);
+						Controller.grid.setMultiplesTiles(p, Controller.tileSet.selectBox, -1);
 						Controller.mainFrame.reDraw();
 						break;
 			

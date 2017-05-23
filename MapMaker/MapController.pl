@@ -1,9 +1,7 @@
 :- dynamic grid/4.
-:- dynamic tile_size/1.
-:- dynamic tileSet_tileSize/1.
+:- dynamic tile_size/2.
+:- dynamic tileSet_tileSize/2.
 :- dynamic grid_size/2.
-
-tile_size(30).
 
 generate_grid(X, Y) :- NX is X - 1, NY is Y - 1, generate_grid_aux(NX, NY, NX).
 generate_grid_aux(-1, 0, _) :- !.
@@ -15,9 +13,9 @@ generate_grid_aux(X, Y, I) :-
 	
 update_grid_size(X, Y) :- (retract( grid_size(_, _) ) ; true), assert( grid_size(X, Y) ), !.
 
-update_tileSet_tileSize(X) :- (retract( tileSet_tileSize(_) ) ; true), assert( tileSet_tileSize(X) ), !.
+update_tileSet_tileSize(X, Y) :- (retract( tileSet_tileSize(_) ) ; true), assert( tileSet_tileSize(X, Y) ), !.
 
-update_tile_size(X) :- retract( tile_size(_) ), assert( tile_size(X) ), !.
+update_tile_size(X, Y) :- (retract( tile_size(_, _) ) ; true), assert( tile_size(X, Y) ), !.
 
 update_grid_type(X, Y, NovoTipo) :- retract( grid(X, Y, _, Collision) ), assert( grid(X, Y, NovoTipo, Collision) ), !.
 

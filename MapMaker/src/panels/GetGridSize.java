@@ -48,11 +48,11 @@ public class GetGridSize extends JPanel implements ActionListener{
 		gridHeigthSize.setBounds(10, 40, 120, 70);
 		add(gridHeigthSize);
 		
-		gridWidth = new JTextField(10);
+		gridWidth = new JTextField();
 		gridWidth.setBounds(115, 20, 50, 30);
 		add(gridWidth);
 		
-		gridHeigth = new JTextField(10);
+		gridHeigth = new JTextField();
 		gridHeigth.setBounds(115, 60, 50, 30);
 		add(gridHeigth);
 		
