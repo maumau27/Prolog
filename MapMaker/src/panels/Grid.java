@@ -77,6 +77,11 @@ public class Grid extends JPanel{
 		return position;
 	}
 	
+	public Dimension getGridSize()
+	{
+		return size;
+	}
+	
 	public void setBackGround(File file)
 	{
 		try {
@@ -131,6 +136,33 @@ public class Grid extends JPanel{
 		}
 	}
 	
+	public void setSelectBoxCollision(Point init, Dimension size, int tipe)
+	{
+		for (int i = init.x; i < (init.x + size.width); i++) {
+			for (int j = init.y; j < (init.y + size.height); j++) {
+				Controller.translator.changeTileCollisionType(new Point(i, j), tipe);
+			}
+		}
+	}
+	
+	public void setSelectBoxTiles(Point init, Dimension size)
+	{
+		for (int i = init.x; i < (init.x + size.width); i++) {
+			for (int j = init.y; j < (init.y + size.height); j++) {
+				Controller.grid.setMultiplesTiles(new Point(i, j), Controller.tileSet.selectBox);
+			}
+		}
+	}
+	
+	public void setSelectBoxTiles(Point init, Dimension size, int tipe)
+	{
+		for (int i = init.x; i < (init.x + size.width); i++) {
+			for (int j = init.y; j < (init.y + size.height); j++) {
+				Controller.grid.setMultiplesTiles(new Point(i, j), Controller.tileSet.selectBox, tipe);
+			}
+		}
+	}
+	
 	public void CenterGrid()
 	{
 		position = new Point((Controller.mainFrame.gridSection.getSize().width / 2) - (gridSize.width / 2), (Controller.mainFrame.gridSection.getSize().height / 2) - (gridSize.height / 2));
@@ -170,7 +202,7 @@ public class Grid extends JPanel{
 		}
 		
 
-		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg, alt);
+		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg-1, alt-1);
 		if(hasFilter(Filter.GRID))
 		{
 			g2d.setColor(Color.BLACK);
@@ -181,7 +213,7 @@ public class Grid extends JPanel{
 		if(hasFilter(Filter.COLLISION) && tile.collisionType == 1)
 		{
 			g2d.setColor(Color.RED);
-			g2d.fill(rectangle);
+			g2d.draw(rectangle);
 		}
 
 		//g2d.fill(rectangle);

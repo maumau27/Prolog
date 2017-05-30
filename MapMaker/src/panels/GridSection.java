@@ -28,6 +28,9 @@ public class GridSection extends JPanel{
 	private Dimension size = new Dimension(Controller.mainFrame.LARG_DEFAULT, Controller.mainFrame.ALT_DEFAULT);
 	public GridMouseController mouseController;
 	
+	public Point selectedTile;
+	public Dimension selectBox;
+	
 	public GridSection()
 	{
 		mouseController = new GridMouseController();

@@ -80,9 +80,15 @@ public class GetGridSize extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		Controller.translator.SetGridSize(new Point(java.lang.Integer.parseInt(gridWidth.getText()), java.lang.Integer.parseInt(gridHeigth.getText())));
-		Controller.CreateGrid();
-		Controller.ClosePopUp();
+		try {
+			Controller.translator.SetGridSize(new Point(java.lang.Integer.parseInt(gridWidth.getText()), java.lang.Integer.parseInt(gridHeigth.getText())));
+			Controller.CreateGrid();
+			Controller.ClosePopUp();
+		} catch (Exception e2) {
+			Controller.ClosePopUp();
+			System.out.println(e2);
+		}
+		
 	}
 
 }

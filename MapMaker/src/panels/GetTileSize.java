@@ -86,13 +86,19 @@ public class GetTileSize extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		Dimension size = new Dimension(java.lang.Integer.parseInt(tileSizeWidth.getText()), java.lang.Integer.parseInt(tileSizeHeight.getText()));
-		if(size.width != 0 && size.height != 0)
-		{
-			Controller.translator.setTileSet_TileSize(size);
-			Controller.CreateTileSet(file);
+		try {
+			Dimension size = new Dimension(java.lang.Integer.parseInt(tileSizeWidth.getText()), java.lang.Integer.parseInt(tileSizeHeight.getText()));
+			if(size.width != 0 && size.height != 0)
+			{
+				Controller.translator.setTileSet_TileSize(size);
+				Controller.CreateTileSet(file);
+				Controller.ClosePopUp();
+			}
+		} catch (Exception e2) {
 			Controller.ClosePopUp();
+			System.out.println(e2);
 		}
+		
 	}
 
 }

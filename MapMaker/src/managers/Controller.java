@@ -75,8 +75,7 @@ public class Controller {
 		mainFrame.gridSection.add(grid);
 		grid.CenterGrid();
 		mainFrame.reDraw();
-		
-		System.out.println("OI");
+
 		mainFrame.mainMenu.createGridMenu();
 		mainFrame.mainMenu.createFilterMenu();
 		mainFrame.setJMenuBar(mainFrame.mainMenu.menuBar);
@@ -100,15 +99,18 @@ public class Controller {
 	{
 		try 
 		{
+			DeleteGrid();
+			
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedFile = new BufferedReader(fileReader);
-			
+
 			String[] gridSize = bufferedFile.readLine().split("\t");
 			translator.SetGridSize(new Point(java.lang.Integer.parseInt(gridSize[0]), java.lang.Integer.parseInt(gridSize[1])));
+			translator.setTileSize(new Dimension(30, 30));
 
 			String line;
 			line = bufferedFile.readLine();
-			
+
 			while(line != null)
 			{
 				String[] tileString = line.split("\t");
@@ -117,8 +119,8 @@ public class Controller {
 				line = bufferedFile.readLine();
 			}
 			
-			DeleteGrid();
-			CreateGrid(new Grid());
+			Grid g = new Grid();
+			CreateGrid(g);
 			
 			bufferedFile.close();
 			fileReader.close();
