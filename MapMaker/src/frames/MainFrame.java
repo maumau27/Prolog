@@ -25,9 +25,9 @@ import panels.GridSection;
 import panels.TileSetSection;
 
 public class MainFrame extends JFrame {
-	
-	public static final int LARG_DEFAULT = 1200;
-	public static final int ALT_DEFAULT = 800;
+
+	public static int LARG_DEFAULT = 800;
+	public static int ALT_DEFAULT = 1200;
 	private JPanel panel = new JPanel();
 	public GridSection gridSection;
 	public TileSetSection tileSetSection;
@@ -67,9 +67,15 @@ public class MainFrame extends JFrame {
 	
 	public void InitializePanel()
 	{
+		Toolkit tk=Toolkit.getDefaultToolkit();
+		Dimension screenSize=tk.getScreenSize();
+		
 		panel.setLayout(null);
 		
 		panel.setBackground(Color.WHITE);
+		
+		LARG_DEFAULT = screenSize.width;
+		ALT_DEFAULT = screenSize.height;
 	}
 	
 	public void ClearPanel()

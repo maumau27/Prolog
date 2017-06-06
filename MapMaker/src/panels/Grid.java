@@ -20,6 +20,7 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
 import components.Tile;
 import managers.Controller;
 import managers.GridMouseController;
+import managers.MouseMotionController;
 
 public class Grid extends JPanel{
 	private Dimension tileSize = Controller.translator.getTileSize();
@@ -38,7 +39,8 @@ public class Grid extends JPanel{
 		BACKGROUND, 
 		GRID,
 		COLLISION,
-		TILE
+		TILE,
+		LINE_EXPANSION
 	}
 	
 	public Grid()
@@ -47,6 +49,7 @@ public class Grid extends JPanel{
 		addFilter(Filter.GRID);
 		addFilter(Filter.BACKGROUND);
 		addFilter(Filter.COLLISION);
+		addFilter(Filter.LINE_EXPANSION);
 		setPos();
 	}
 	
@@ -205,9 +208,11 @@ public class Grid extends JPanel{
 		Rectangle2D rectangle=new Rectangle2D.Double(posX, posY, larg-1, alt-1);
 		if(hasFilter(Filter.GRID))
 		{
-			g2d.setColor(Color.BLACK);
+			if((inLineExpansion(tile) || tile.position.equals(Controller.mainFrame.gridSection.mouseMotionController.getCurrentPoint())) && hasFilter(Filter.LINE_EXPANSION))
+				g2d.setColor(Color.YELLOW);
+			else
+				g2d.setColor(Color.BLACK);
 			g2d.draw(rectangle);
-			
 		}
 
 		if(hasFilter(Filter.COLLISION) && tile.collisionType == 1)
@@ -218,4 +223,49 @@ public class Grid extends JPanel{
 
 		//g2d.fill(rectangle);
 	}
+	
+	public boolean inLineExpansion(Tile tile)
+	{
+		MouseMotionController mmc = Controller.mainFrame.gridSection.mouseMotionController;
+		Point currentPoint = mmc.getCurrentPoint();
+		
+		Point gridSize = Controller.translator.getGridSize();
+		
+		boolean returnType = false;
+		
+		if(currentPoint.x == tile.position.x || currentPoint.y == tile.position.y)
+		{
+			if((gridSize.x - 1) % 2 == 0 && (gridSize.y - 1) % 2 == 0)
+				if(currentPoint.x == (gridSize.x - 1) / 2 && currentPoint.y == (gridSize.y - 1) / 2)
+					return true;
+
+			if(currentPoint.x <= (gridSize.x - 1) / 2 && currentPoint.y <= (gridSize.y - 1) / 2)
+			{
+				if(tile.position.x < currentPoint.x || tile.position.y < currentPoint.y)
+					returnType = true;
+			}
+			
+			if(currentPoint.x <= (gridSize.x - 1) / 2 && currentPoint.y >= (gridSize.y - 1) / 2)
+			{
+				if(tile.position.x < currentPoint.x || tile.position.y > currentPoint.y)
+					returnType = true;
+			}
+			
+			if(currentPoint.x >= (gridSize.x - 1) / 2 && currentPoint.y <= (gridSize.y - 1) / 2)
+			{
+				if(tile.position.x > currentPoint.x || tile.position.y < currentPoint.y)
+					returnType = true;
+			}
+			
+			if(currentPoint.x >= (gridSize.x - 1) / 2 && currentPoint.y >= (gridSize.y - 1) / 2)
+			{
+				if(tile.position.x > currentPoint.x || tile.position.y > currentPoint.y)
+					returnType = true;
+			}
+		}
+		
+		
+		return returnType;
+	}
+	
 }

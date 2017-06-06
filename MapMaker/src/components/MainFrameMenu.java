@@ -133,6 +133,7 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 		FilterMenu.addItem("Grid", KeyEvent.VK_G);
 		FilterMenu.addItem("Tile", KeyEvent.VK_T);
 		FilterMenu.addItem("Collision", KeyEvent.VK_C);
+		FilterMenu.addItem("Line Expansion", KeyEvent.VK_L);
 		menuBar.add(FilterMenu.getMenu());
 		menuBar.repaint();
 	}
@@ -208,6 +209,13 @@ public class MainFrameMenu implements ActionListener, ItemListener{
 					Controller.grid.removeFilter(Filter.COLLISION);
 				else
 					Controller.grid.addFilter(Filter.COLLISION);	
+				Controller.mainFrame.reDraw();
+				break;
+			case "Line Expansion":
+				if(Controller.grid.hasFilter(Filter.LINE_EXPANSION))
+					Controller.grid.removeFilter(Filter.LINE_EXPANSION);
+				else
+					Controller.grid.addFilter(Filter.LINE_EXPANSION);	
 				Controller.mainFrame.reDraw();
 				break;
 	

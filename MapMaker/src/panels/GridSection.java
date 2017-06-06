@@ -14,6 +14,8 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import frames.MainFrame;
@@ -27,9 +29,12 @@ public class GridSection extends JPanel{
 	private Point position = new Point(0, 0);
 	private Dimension size = new Dimension(Controller.mainFrame.LARG_DEFAULT, Controller.mainFrame.ALT_DEFAULT);
 	public GridMouseController mouseController;
+	public MouseMotionController mouseMotionController;
 	
 	public Point selectedTile;
 	public Dimension selectBox;
+	
+	private JLabel mouse_position;
 	
 	public GridSection()
 	{
@@ -57,7 +62,24 @@ public class GridSection extends JPanel{
 			}
 		});
 		
-		addMouseMotionListener(new MouseMotionController());
+		mouseMotionController = new MouseMotionController();
+		
+		addMouseMotionListener(mouseMotionController);
+		
+		mouse_position = new JLabel();
+		mouse_position.setText("Fora da Grid");
+		mouse_position.setBounds(0, -40, 100, 100);
+		add(mouse_position);
+	}
+	
+	public void change_mousePosition()
+	{
+		mouse_position.setText("("+mouseMotionController.getCurrentPoint().x+" , "+mouseMotionController.getCurrentPoint().y+")");
+	}
+	
+	public void change_mousePosition(String s)
+	{
+		mouse_position.setText(s);
 	}
 
 	public void panelAdd(Component c)
